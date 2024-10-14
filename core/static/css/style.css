@@ -1,0 +1,238 @@
+/* Reset Básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Corpo da Página */
+body {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+}
+
+/* Navbar Lateral */
+nav {
+    width: 250px;
+    background-color: #2c3e50;
+    color: white;
+    height: 100vh; /* Altura total da tela */
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+/* Links da Navbar */
+nav a {
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    display: block;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #3498db;
+}
+
+/* Botão de Toggle para Responsividade */
+nav button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: none;
+    align-self: flex-start;
+}
+
+/* Ajuste na largura do conteúdo principal */
+.main-content {
+    margin-left: 250px; /* Espaço suficiente para a navbar */
+    width: calc(100% - 250px); /* Largura do conteúdo sem contar a navbar */
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: margin-left 0.3s;
+}
+
+
+/* Ajuste da estrutura do conteúdo */
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo horizontalmente */
+    width: 100%;
+    padding: 20px;
+}
+
+
+/* Sidebar Oculta para Telas Pequenas */
+@media (max-width: 768px) {
+    nav {
+        transform: translateX(-100%);
+    }
+
+    nav.show {
+        transform: translateX(0);
+    }
+
+    nav button {
+        display: block;
+    }
+
+    .main-content {
+        margin-left: 0;
+        width: 100%;
+    }
+}
+/* Estilização do Formulário de Cadastro */
+form {
+    background-color: #ecf0f1; /* Fundo claro para contraste com a navbar */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    margin: 0 auto; /* Centraliza o formulário */
+}
+
+form label {
+    display: block;
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+form input[type="text"],
+form input[type="date"],
+form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+    color: #2c3e50;
+}
+
+form input[type="text"]:focus,
+form input[type="date"]:focus,
+form input[type="number"]:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+form button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #2980b9;
+}
+
+form a button {
+    background-color: #e74c3c;
+}
+
+form a button:hover {
+    background-color: #c0392b;
+}
+
+/* Centralização e estilo do h2 */
+h2 {
+    color: #2c3e50;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 100%;
+}
+/* Ajustes na listagem */
+ul.listagem {
+    list-style: none;
+    padding: 0;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 600px; /* Controla a largura da listagem */
+}
+
+ul.listagem li.list-item {
+    padding: 10px 15px;
+    background-color: #ecf0f1;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul.listagem li.list-item a {
+    color: #3498db;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+ul.listagem li.list-item a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Estilização do botão de adicionar colaborador */
+.add-button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+}
+
+.add-button:hover {
+    background-color: #2980b9;
+}
+.form-cadastro input[type="text"],
+.form-cadastro select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: white;
+    color: #2c3e50;
+}
+
+.form-cadastro select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding-right: 30px;
+    background-image: url('data:image/svg+xml;base64,...');
+    background-position: right 10px center;
+    background-repeat: no-repeat;
+    background-size: 10px;
+}

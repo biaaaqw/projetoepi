@@ -1,0 +1,19 @@
+{% extends "model-page.html" %}
+{% block content %}
+    <div class="content-wrapper">
+        <h2>Colaboradores</h2>
+
+        <a href="/colaborador/cadastrar/"> 
+            <button type="button" class="add-button">Adicionar Colaborador</button>
+        </a>
+
+        <ul class="listagem">
+            {% for colaborador in colaboradores %}
+            <li class="list-item">
+                {{ colaborador.nome }}
+                (<a href="/colaborador/cadastrar/?id={{ colaborador.id }}">editar</a> / <a href="/colaborador/excluir/{{ colaborador.id }}">excluir</a>)
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "model-page.html" %}
+{% block content %}
+    <div class="content-wrapper">
+        <h2>Cadastrar Empréstimo</h2>
+
+        <form action="submit" method="POST" class="form-cadastro">
+            {% csrf_token %}
+            <input type="number" name="id_emprestimo" value="{{ emprestimo.id }}" hidden>
+
+            <label for="id_colaborador">Nome Colaborador</label>
+            <select id="id_colaborador" name="id_colaborador" required>
+                <option value="{{ emprestimo.id_colaborador.id }}">{{ emprestimo.id_colaborador }}</option>
+                {% for colaborador in colaboradores %}
+                    <option value="{{ colaborador.id }}">{{ colaborador.nome }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="id_equipamento">Nome Equipamento</label>
+            <select id="id_equipamento" name="id_equipamento" required>
+                <option value="{{ emprestimo.id_equipamento.id }}">{{ emprestimo.id_equipamento }}</option>
+                {% for equipamento in equipamentos %}
+                    <option value="{{ equipamento.id }}">{{ equipamento.nome }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="situacao_emprestimo">Situação Empréstimo</label>
+            <input type="text" id="situacao_emprestimo" name="situacao_emprestimo" value="{{ emprestimo.situacao_emprestimo }}" required>
+
+            <div class="form-actions">
+                <button type="submit" class="save-button">Salvar</button>
+                <a href="/emprestimo/">
+                    <button type="button" class="cancel-button">Cancelar</button>
+                </a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

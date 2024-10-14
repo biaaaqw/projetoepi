@@ -1,0 +1,32 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% include "model-header.html" %}
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <!-- Navbar -->
+        <nav>
+            <a href="/">EPI Manager</a>
+            <button type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span ></span>
+            </button>
+            <div id="navbarNav">
+                <ul>
+                    <li>
+                        <a href="/colaborador/">Colaboradores</a>
+                    </li>
+                    <li>
+                        <a href="/equipamento/">Equipamentos</a>
+                    </li>
+                    <li>
+                        <a href="/emprestimo/">Empréstimos</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    {% block content %} {% endblock %}
+    {% include "model-footer.html" %}
+</body>
+</html>

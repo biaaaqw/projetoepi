@@ -1,0 +1,19 @@
+{% extends "model-page.html" %}
+{% block content %} 
+<div class="content-wrapper">
+    <h2>Equipamento</h2>
+
+        <a href="/equipamento/cadastrar/"> 
+            <button type="button" class="add-button">Adicionar equipamento</button>
+        </a>
+
+        <ul class="listagem">
+            {% for equipamento in equipamentos %}
+            <li class="list-item">
+                {{equipamento.nome}}
+                (<a href = "/equipamento/cadastrar/?id={{equipamento.id}}" >editar</a> / <a href="/equipamento/excluir/{{ equipamento.id }}">excluir</a>)
+            </li>    
+            {% endfor %}
+        </ul>   
+</div>
+{% endblock %}

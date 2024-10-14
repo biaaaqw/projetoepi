@@ -1,0 +1,22 @@
+{% extends "model-page.html" %}
+{% block content %} 
+<div class="content-wrapper">
+    <h2>Empréstimo</h2>
+
+    <a href="/emprestimo/cadastrar/"> 
+        <button type="button" class="add-button">Adicionar Empréstimo</button>
+    </a>
+
+    <ul class="listagem">
+        {% for emprestimo in emprestimos %}
+        <li class="list-item">
+            {{emprestimo.id}} - {{emprestimo.id_colaborador}} - {{emprestimo.id_equipamento}} - {{emprestimo.data_emprestimo}}
+            (<a href = "/emprestimo/cadastrar/?id={{emprestimo.id}}" >editar</a> / <a href="/emprestimo/excluir/{{ emprestimo.id }}">excluir</a>)
+        </li>    
+
+        {% endfor %}
+    </ul>   
+</div>
+
+
+{% endblock %}
