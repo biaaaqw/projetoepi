@@ -40,4 +40,6 @@ urlpatterns = [
     path('usuario/cadastrar/', views.cadastrar_usuario),
     path('usuario/cadastrar/submit', views.submit_usuario),
     path('usuario/excluir/<int:id_usuario>/', views.delete_usuario),
+    path('usuario/perfil/', views.perfil),
+    path('usuario/perfil/submit', views.submit_perfil),
 ]

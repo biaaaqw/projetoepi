@@ -117,6 +117,7 @@ form label {
     margin-bottom: 10px;
 }
 
+form input[type="email"],
 form input[type="password"],
 form input[type="text"],
 form input[type="date"],
@@ -131,6 +132,7 @@ form input[type="number"] {
     color: #2c3e50;
 }
 
+form input[type="email"]:focus,
 form input[type="password"]:focus,
 form input[type="text"]:focus,
 form input[type="date"]:focus,
@@ -217,6 +219,7 @@ ul.listagem li.list-item a:hover {
 .add-button:hover {
     background-color: #2980b9;
 }
+.form-cadastro input[type="email"],
 .form-cadastro input[type="text"],
 .form-cadastro input[type="passowrd"],
 .form-cadastro select {

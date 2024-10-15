@@ -26,12 +26,17 @@
                     <a href="/emprestimo/">Empréstimos</a>
                 </li>
                 {% if user.is_superuser %}
-                <li>
-                    <a href="/usuario/">Usuários</a>
-                </li>
-                <li>
-                    <a href="/admin/">Administração</a>
-                </li>
+                    <li>
+                        <a href="/usuario/">Usuários</a>
+                    </li>
+                    <li>
+                        <a href="/admin/">Administração</a>
+                    </li>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <li>
+                        <a href="/usuario/perfil/">Perfil</a>
+                    </li>
                 {% endif %}
             </ul>
         </div>

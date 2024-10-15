@@ -132,20 +132,32 @@ def submit_emprestimo(request):
     return redirect('/emprestimo/')
 
 def login_usuario(request):
-    return render(request,'login.html',{'show_logout': False})
+    url_next = request.GET.get('next', None)
+    dados={}
+    dados['show_logout']=False
+    if url_next is not None:
+        dados['url_next']=url_next
+    return render(request,'login.html',dados)
 
 def submit_login(request):
     if request.POST:
         username = request.POST.get('username')
         password = request.POST.get('password')
+        url_next = request.POST.get('url_next', None)
         usuario = authenticate(username=username, password=password)
         if usuario is not None:
             login(request,usuario)
+            if url_next is not None:
+                return redirect(url_next)
             return redirect('/')
         else:
             messages.error(request,"Usuário ou senha inválido!")
+            if url_next is not None:
+                return redirect('/login/?next='+url_next)
         return redirect('/login/')
     else:
+        if url_next is not None:
+            return redirect('/login/?next='+url_next)
         return redirect('/login/')
 
 def logout_usuario(request):
@@ -200,3 +212,45 @@ def submit_usuario(request):
             User.objects.create_user(username=username, password=password)
 
     return redirect('/usuario/')
+
+@login_required(login_url='/login/')
+def perfil(request):
+    usuario = request.user
+    dados={
+        'usuario': usuario,
+        'show_logout': True
+    }
+    return render(request,'perfil.html',dados)
+
+#a tela de alteração de cadastro de usuário deve ser diferente para o próprio usuário
+@login_required(login_url='/login/')
+def submit_perfil(request):
+    usuario = request.user
+    if request.method == 'POST':
+        id_usuario = request.POST.get('id_usuario')
+        username = request.POST.get('username')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        #opicional
+        password = request.POST.get('password',None)
+
+        # Verifica se o usuário está editando outro usuário
+        if int(id_usuario) == usuario.id:
+            
+            usuario.username=username
+            usuario.first_name=first_name
+            usuario.last_name=last_name
+            usuario.email=email
+
+            usuario.save()
+        
+            if password:
+                usuario.set_password(password)
+                usuario.save()
+
+            usuario = authenticate(username=username, password=password)
+            login(request,usuario)
+        else:
+            return HttpResponseForbidden("Você não tem permissão para alterar esse usuário.")
+    return redirect('/usuario/perfil/')
