@@ -1,9 +1,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EPI Manager</title>
-<div align="right">
-    <a href="/logout">logout</a>
+{% if show_logout %}
+<div class="login-quick">
+    {% if user.is_authenticated %}
+        <p>
+            Bem-vindo, {{ user.username }}!
+        </p>
+        
+        <a href="/logout/" class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            Sair
+        </a>
+    {% else %}
+        <a href="/login/" class="login-btn">
+            <i class="fas fa-sign-in-alt"></i> Entrar
+        </a>
+    {% endif %}
 </div>
+{% endif %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 <h1></h1>

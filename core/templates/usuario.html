@@ -1,0 +1,19 @@
+{% extends "model-page.html" %}
+{% block content %}
+    <div class="content-wrapper">
+        <h2>Usuários</h2>
+
+        <a href="/usuario/cadastrar/"> 
+            <button type="button" class="add-button">Adicionar Usuário</button>
+        </a>
+
+        <ul class="listagem">
+            {% for usuario in usuarios %}
+            <li class="list-item">
+                {{ usuario.username }}
+                (<a href="/usuario/cadastrar/?id={{ usuario.id }}">editar</a> / <a href="/usuario/excluir/{{ usuario.id }}">excluir</a>)
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

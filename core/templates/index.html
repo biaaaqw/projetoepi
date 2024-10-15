@@ -1,2 +1,27 @@
 {% extends "model-page.html" %}
-{% block content %} <h1>teste</h1> {% endblock %}
+{% block content %}
+    <div class="content-wrapper">
+        <h2>EPI Manager</h2>
+
+        <div class="welcome-container">
+            <h3>Bem-vindo ao Sistema de Gestão de EPIs</h3>
+            <p>Gerencie de forma eficiente os Equipamentos de Proteção Individual (EPIs) da sua empresa. Utilize o menu lateral para navegar pelas seções e realizar cadastros, listar equipamentos, colaboradores e acompanhar os empréstimos ativos.</p>
+
+            <div class="quick-actions">
+                <h4>Ações rápidas</h4>
+                <a href="/login/">
+                    <button class="quick-action-button">Login</button>
+                </a>
+                <a href="/colaborador/">
+                    <button class="quick-action-button">Colaboradores</button>
+                </a>
+                <a href="/equipamento/">
+                    <button class="quick-action-button">Equipamentos</button>
+                </a>
+                <a href="/emprestimo/">
+                    <button class="quick-action-button">Empréstimos</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
