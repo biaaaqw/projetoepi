@@ -1,0 +1,34 @@
+{% extends "model-page.html" %}
+{% block content %}
+    <div class="content-wrapper">
+        <h2>Login</h2>
+
+        <form action="submit" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Nome de Usuário</label>
+                <input type="text" id="username" name="username" placeholder="Digite seu nome de usuário" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+            </div>
+
+            <button type="submit" class="login-button">Entrar</button>
+        </form>
+    </div>
+
+    {% if messages %}
+        <div class="error-message">
+            <ul>
+                {% for message in messages %}
+                    <li><strong>Erro:</strong> {{ message }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block login_section %}
+{% endblock %}
