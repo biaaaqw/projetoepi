@@ -18,13 +18,39 @@ def equipamento (request):
 
 @login_required(login_url='/login/')
 def cadastrar_equipamento(request):
-    id_equipamento=request.GET.get('id')
-    dados={}
+    id_equipamento = request.GET.get('id')
+    dados = {}
+    
+    # verificação se o metodo for edição de um equipamento
     if id_equipamento:
         dados['equipamento'] = Equipamento.objects.get(id=id_equipamento)
-    dados['show_logout']=True
-    return render(request,"cadastrar-equipamento.html",dados)
+    
+    # Se o método for POST, salva o equipamento
+    if request.method == 'POST':
+        nome = request.POST.get('nome')
+        data_validade = request.POST.get('data_validade')
+        situacao = request.POST.get('situacao')
+        
+        if id_equipamento:
+            equipamento = Equipamento.objects.get(id=id_equipamento)
+        else:
+            equipamento = Equipamento()
 
+        equipamento.nome = nome
+        equipamento.data_validade = data_validade
+        equipamento.situacao = situacao
+        
+        try:
+            equipamento.save()
+            messages.success(request, 'Equipamento cadastrado com sucesso!')
+        except:
+            messages.error(request, 'Ocorreu um erro ao cadastrar o equipamento.')
+
+        return redirect('/equipamento/')
+    
+    dados['show_logout'] = True
+    return render(request, "cadastrar-equipamento.html", dados)
+    
 @login_required(login_url='/login/')
 def delete_equipamento(request,id_equipamento):
     equipamento = Equipamento.objects.get(id=id_equipamento)
