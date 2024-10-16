@@ -2,7 +2,13 @@
 {% block content %}
     <div class="content-wrapper">
         <h2>Cadastrar Equipamento</h2>
-
+        {% if messages %}
+        <div class="message-wrapper">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
         <form action="submit" method="POST" class="form-cadastro">
             {% csrf_token %}
             <input type="number" name="id_equipamento" value="{{ equipamento.id }}" hidden>
