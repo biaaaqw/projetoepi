@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from core.models import Equipamento, Colaborador, Emprestimo
+from core.models import Equipamento, Colaborador, Emprestimo, UserProfile
 from django.contrib.auth.decorators import login_required,permission_required
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
@@ -226,6 +226,7 @@ def perfil(request):
 @login_required(login_url='/login/')
 def submit_perfil(request):
     usuario = request.user
+    user_profile, created = UserProfile.objects.get_or_create(user=usuario)
     if request.method == 'POST':
         id_usuario = request.POST.get('id_usuario')
         username = request.POST.get('username')
@@ -234,6 +235,7 @@ def submit_perfil(request):
         email = request.POST.get('email')
         #opicional
         password = request.POST.get('password',None)
+        profile_picture = request.FILES.get('profile_picture')
 
         # Verifica se o usuário está editando outro usuário
         if int(id_usuario) == usuario.id:
@@ -242,6 +244,10 @@ def submit_perfil(request):
             usuario.first_name=first_name
             usuario.last_name=last_name
             usuario.email=email
+
+            if profile_picture:
+                user_profile.profile_picture = profile_picture
+                user_profile.save()
 
             usuario.save()
         
