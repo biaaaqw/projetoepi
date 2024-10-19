@@ -1,8 +1,13 @@
 {% extends "model-page.html" %}
 {% block content %}
     <div class="content-wrapper">
-        <h2>Cadastrar Empréstimo</h2>
 
+        
+        {% if emprestimo.id %}
+            <h2>Editar Empréstimo</h2>
+        {% else %}
+            <h2>Cadastrar Empréstimo</h2>
+        {% endif %}
         <form action="submit" method="POST" class="form-cadastro">
             {% csrf_token %}
             <input type="number" name="id_emprestimo" value="{{ emprestimo.id }}" hidden>
@@ -24,8 +29,32 @@
             </select>
 
             <label for="situacao_emprestimo">Situação Empréstimo</label>
-            <input type="text" id="situacao_emprestimo" name="situacao_emprestimo" value="{{ emprestimo.situacao_emprestimo }}" required>
+            <select name="situacao_emprestimo">
+                {% for key, value in situacao_choices %}
+                    <option value="{{ key }}" {% if emprestimo and emprestimo.situacao_emprestimo == key %}selected{% endif %}>
+                        {{ value }}
+                    </option>
+                {% endfor %}
+            </select>
 
+            <label for="data_emprestimo">Data do Empréstimo</label>
+            <input type="date" id="data_emprestimo" name="data_emprestimo" value="{{ emprestimo.get_data_emprestimo }}" required>
+
+            <label for="data_prevista">Data Prevista de Devolução</label>
+            <input type="date" id="data_prevista" name="data_prevista" value="{{ emprestimo.get_data_prevista }}" required>
+
+            <label for="condicao_emprestimo">Condições do Equipamento no Empréstimo</label>
+            <input type="text" id="condicao_emprestimo" name="condicao_emprestimo" value="{{ emprestimo.condicao_emprestimo }}" required>
+
+            {% if emprestimo.id %}
+
+                <label for="obs_emprestimo">Observação na Devolução/Perda</label>
+                <input type="text" id="obs_emprestimo" name="obs_emprestimo" value="{{ emprestimo.obs_emprestimo }}" required>
+
+                <label for="data_devolucao">Data de Devolução</label>
+                <input type="date" id="data_devolucao" name="data_devolucao" value="{{ emprestimo.get_data_devolucao }}" required>
+
+            {% endif %}
             <div class="form-actions">
                 <button type="submit" class="save-button">Salvar</button>
                 <a href="/emprestimo/">

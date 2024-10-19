@@ -7,6 +7,28 @@
         <button type="button" class="add-button">Adicionar Empréstimo</button>
     </a>
 
+    <form action="?colaborador={{colaborador}}&equipamento={{equipamento}}&situacao_emprestimo={{situacao_emprestimo}}" method="GET" class="form-cadastro">
+       <label for="colaborador">Nome Colaborador</label>
+        <input type="text" id="colaborador" name="colaborador" value="{{ filtros.colaborador }}">
+
+        <label for="equipamento">Nome Equipamento</label>
+        <input type="text" id="equipamento" name="equipamento" value="{{ filtros.equipamento }}">
+
+        <label for="situacao_emprestimo">Status</label>
+        <select name="situacao_emprestimo">
+            {% for key, value in situacao_choices %}
+                <option value="{{ key }}" {% if emprestimo and emprestimo.situacao_emprestimo == key %}selected{% endif %}>
+                    {{ value }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <div class="form-actions">
+            <a href="/emprestimo/">
+                <button type="submit" class="save-button" action>Pesquisar</button>
+            </a>
+        </div>
+
     <ul class="listagem">
         {% for emprestimo in emprestimos %}
         <li class="list-item">

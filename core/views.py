@@ -9,24 +9,19 @@ from django.http import HttpResponseForbidden
 # Create your views here.
 def index (request):
     return render(request, 'index.html',{'show_logout': True})
-    return render(request, 'index.html',{'show_logout': True})
 
-@login_required(login_url='/login/')
 @login_required(login_url='/login/')
 def equipamento (request):
     equipamentos = Equipamento.objects.all()
     dados = {'equipamentos': equipamentos, 'show_logout': True}
-    dados = {'equipamentos': equipamentos, 'show_logout': True}
     return render(request, 'equipamento.html', dados)
 
-@login_required(login_url='/login/')
 @login_required(login_url='/login/')
 def cadastrar_equipamento(request):
     id_equipamento=request.GET.get('id')
     dados={}
     if id_equipamento:
         dados['equipamento'] = Equipamento.objects.get(id=id_equipamento)
-    dados['show_logout']=True
     dados['show_logout']=True
     return render(request,"cadastrar-equipamento.html",dados)
 
@@ -95,22 +90,67 @@ def submit_colaborador(request):
 
 @login_required(login_url='/login/')
 def emprestimo (request):
+    SITUACAO_CHOICES = [
+        ('', ''),   
+        ('emprestado', 'Emprestado'),
+        ('em_uso', 'Em uso'),
+        ('fornecido', 'Fornecido'),
+        ('devolvido', 'Devolvido'),
+        ('danificado', 'Danificado'),
+        ('perdido', 'Perdido'),
+    ]
+
+    colaborador=request.GET.get('colaborador')
+    equipamento=request.GET.get('equipamento')
+    situacao_emprestimo=request.GET.get('situacao_emprestimo')
+
     emprestimos = Emprestimo.objects.all()
-    dados = {'emprestimos': emprestimos, 'show_logout': True}
+
+    if colaborador:
+        emprestimos = emprestimos.filter(id_colaborador__nome__icontains=colaborador)
+    if equipamento:
+        emprestimos = emprestimos.filter(id_equipamento__nome__icontains=equipamento)
+    if situacao_emprestimo:
+        emprestimos = emprestimos.filter(situacao_emprestimo=situacao_emprestimo)
+
+    dados = {'emprestimos': emprestimos,
+            'show_logout': True,
+            'situacao_choices': SITUACAO_CHOICES}
     return render(request, 'emprestimo.html', dados)
 
 @login_required(login_url='/login/')
 def cadastrar_emprestimo(request):
+    id_emprestimo = request.GET.get('id')
+    if id_emprestimo:
+        emprestimo = get_object_or_404(Emprestimo, id=id_emprestimo)
+        SITUACAO_CHOICES = [
+            ('emprestado', 'Emprestado'),
+            ('em_uso', 'Em uso'),
+            ('fornecido', 'Fornecido'),
+            ('devolvido', 'Devolvido'),
+            ('danificado', 'Danificado'),
+            ('perdido', 'Perdido'),
+        ]
+    else:
+        emprestimo = None
+        SITUACAO_CHOICES = [
+            ('emprestado', 'Emprestado'),
+            ('em_uso', 'Em uso'),
+            ('fornecido', 'Fornecido'),
+        ]
+
     colaboradores = Colaborador.objects.all()
     equipamentos = Equipamento.objects.all()
-    id_emprestimo=request.GET.get('id')
-    dados={}
-    if id_emprestimo:
-        dados['emprestimo'] = Emprestimo.objects.get(id=id_emprestimo)
-    dados['colaboradores'] = colaboradores
-    dados['equipamentos'] = equipamentos
-    dados['show_logout'] = True
-    return render(request,"cadastrar-emprestimo.html",dados)
+
+    dados = {
+        'emprestimo': emprestimo,
+        'colaboradores': colaboradores,
+        'equipamentos': equipamentos,
+        'situacao_choices': SITUACAO_CHOICES,
+        'show_logout': True,
+    }
+
+    return render(request, "cadastrar-emprestimo.html", dados)
 
 @login_required(login_url='/login/')
 def delete_emprestimo(request,id_emprestimo):
@@ -127,10 +167,20 @@ def submit_emprestimo(request):
         equipamento = Equipamento.objects.get(id = id_equipamento)        
         situacao_emprestimo = request.POST.get('situacao_emprestimo')
         id_emprestimo = request.POST.get('id_emprestimo') 
+        data_prevista = request.POST.get('data_prevista') 
+        data_devolucao = request.POST.get('data_devolucao') 
+        obs_emprestimo = request.POST.get('obs_emprestimo') 
+        condicao_emprestimo = request.POST.get('condicao_emprestimo') 
         if id_emprestimo:
-            Emprestimo.objects.get(id = id_emprestimo).update(id_colaborador=colaborador,
-                                  id_equipamento=equipamento,
-                                  situacao_emprestimo=situacao_emprestimo)
+            emprestimo=Emprestimo.objects.get(id = id_emprestimo)
+            emprestimo.id_colaborador=colaborador
+            emprestimo.id_equipamento=equipamento
+            emprestimo.situacao_emprestimo=situacao_emprestimo
+            emprestimo.data_prevista=data_prevista
+            emprestimo.data_devolucao=data_devolucao
+            emprestimo.obs_emprestimo=obs_emprestimo
+            emprestimo.condicao_emprestimo=condicao_emprestimo
+            emprestimo.save()
         else:        
             Emprestimo.objects.create(id_colaborador=colaborador,
                                   id_equipamento=equipamento,

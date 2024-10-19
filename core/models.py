@@ -31,11 +31,28 @@ class Equipamento(models.Model):
         return self.data_validade.strftime('%Y-%m-%d')        
 
 class Emprestimo(models.Model):
-    id_colaborador = models.ForeignKey (Colaborador, on_delete=models.CASCADE)
-    id_equipamento = models.ForeignKey (Equipamento, on_delete=models.CASCADE)
-    situacao_emprestimo = models.CharField (max_length=100)
-    data_emprestimo = models.DateTimeField(auto_now = True)
-    
+    SITUACAO_CHOICES = [
+        ('emprestado', 'Emprestado'),
+        ('em_uso', 'Em uso'),
+        ('fornecido', 'Fornecido'),
+        ('devolvido', 'Devolvido'),
+        ('danificado', 'Danificado'),
+        ('perdido', 'Perdido'),
+    ]
+
+    id_colaborador = models.ForeignKey(Colaborador, on_delete=models.CASCADE)
+    id_equipamento = models.ForeignKey(Equipamento, on_delete=models.CASCADE)
+    data_emprestimo = models.DateTimeField(auto_now=True)
+    situacao_emprestimo = models.CharField(
+        max_length=10,
+        choices=SITUACAO_CHOICES,
+        default='emprestado',
+    )
+    data_prevista = models.DateTimeField(null=True,blank=True)
+    data_devolucao = models.DateTimeField(null=True,blank=True)
+    condicao_emprestimo = models.CharField(max_length=100,null=True,blank=True)
+    obs_emprestimo = models.TextField(max_length=500,null=True,blank=True)
+
     def get_nome_colaborador(self):
         return self.id_colaborador
     
@@ -50,6 +67,16 @@ class Emprestimo(models.Model):
 
     def get_data_emprestimo(self):
         return self.data_emprestimo.strftime('%Y-%m-%d')
+    
+    def get_data_prevista(self):
+        if self.data_prevista:
+            return self.data_prevista.strftime('%Y-%m-%d')
+        return ""
+    
+    def get_data_devolucao(self):
+        if self.data_devolucao:
+            return self.data_devolucao.strftime('%Y-%m-%d')
+        return ""
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
