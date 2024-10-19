@@ -31,17 +31,14 @@ def cadastrar_equipamento(request):
     return render(request,"cadastrar-equipamento.html",dados)
 
 @login_required(login_url='/login/')
-@login_required(login_url='/login/')
 def delete_equipamento(request,id_equipamento):
     equipamento = Equipamento.objects.get(id=id_equipamento)
     equipamento.delete()
     return redirect('/equipamento/')
 
 @login_required(login_url='/login/')
-@login_required(login_url='/login/')
 def submit_equipamento(request):
     if request.POST:
-        nome = request.POST.get('nome')
         nome = request.POST.get('nome')
         data_validade = request.POST.get('data_validade')
         situacao = request.POST.get('situacao')
@@ -52,27 +49,18 @@ def submit_equipamento(request):
             equipamento.data_validade=data_validade
             equipamento.situacao=situacao
             equipamento.save()
-            equipamento = Equipamento.objects.get(id = id_equipamento)
-            equipamento.nome=nome
-            equipamento.data_validade=data_validade
-            equipamento.situacao=situacao
-            equipamento.save()
-        else:        
-            Equipamento.objects.create(nome=nome,
+        else:
             Equipamento.objects.create(nome=nome,
                               data_validade=data_validade,
                               situacao=situacao)
     return redirect('/equipamento/')
 
 @login_required(login_url='/login/')
-@login_required(login_url='/login/')
 def colaborador (request):
     colaboradores = Colaborador.objects.all()
     dados = {'colaboradores': colaboradores, 'show_logout':True}
-    dados = {'colaboradores': colaboradores, 'show_logout':True}
     return render(request, 'colaborador.html', dados)
 
-@login_required(login_url='/login/')
 @login_required(login_url='/login/')
 def cadastrar_colaborador(request):
     id_colaborador=request.GET.get('id')
@@ -80,17 +68,14 @@ def cadastrar_colaborador(request):
     if id_colaborador:
         dados['colaborador'] = Colaborador.objects.get(id=id_colaborador)
     dados['show_logout'] = True
-    dados['show_logout'] = True
     return render(request,"cadastrar-colaborador.html",dados)
 
-@login_required(login_url='/login/')
 @login_required(login_url='/login/')
 def delete_colaborador(request,id_colaborador):
     colaborador = Colaborador.objects.get(id=id_colaborador)
     colaborador.delete()
     return redirect('/colaborador/')
 
-@login_required(login_url='/login/')
 @login_required(login_url='/login/')
 def submit_colaborador(request):
     if request.POST:
@@ -103,25 +88,17 @@ def submit_colaborador(request):
             colaborador.nome=nome
             colaborador.data_nascimento=data_nascimento
             colaborador.save()
-            colaborador = Colaborador.objects.get(id = id_colaborador)
-            colaborador.nome=nome
-            colaborador.data_nascimento=data_nascimento
-            colaborador.save()
         else:
-            Colaborador.objects.create(nome=nome,
             Colaborador.objects.create(nome=nome,
                               data_nascimento=data_nascimento)
     return redirect('/colaborador/')
 
 @login_required(login_url='/login/')
-@login_required(login_url='/login/')
 def emprestimo (request):
     emprestimos = Emprestimo.objects.all()
     dados = {'emprestimos': emprestimos, 'show_logout': True}
-    dados = {'emprestimos': emprestimos, 'show_logout': True}
     return render(request, 'emprestimo.html', dados)
 
-@login_required(login_url='/login/')
 @login_required(login_url='/login/')
 def cadastrar_emprestimo(request):
     colaboradores = Colaborador.objects.all()
@@ -133,17 +110,14 @@ def cadastrar_emprestimo(request):
     dados['colaboradores'] = colaboradores
     dados['equipamentos'] = equipamentos
     dados['show_logout'] = True
-    dados['show_logout'] = True
     return render(request,"cadastrar-emprestimo.html",dados)
 
-@login_required(login_url='/login/')
 @login_required(login_url='/login/')
 def delete_emprestimo(request,id_emprestimo):
     emprestimo = Emprestimo.objects.get(id=id_emprestimo)
     emprestimo.delete()
     return redirect('/emprestimo/')
 
-@login_required(login_url='/login/')
 @login_required(login_url='/login/')
 def submit_emprestimo(request):
     if request.POST:
@@ -154,7 +128,6 @@ def submit_emprestimo(request):
         situacao_emprestimo = request.POST.get('situacao_emprestimo')
         id_emprestimo = request.POST.get('id_emprestimo') 
         if id_emprestimo:
-            Emprestimo.objects.get(id = id_emprestimo).update(id_colaborador=colaborador,
             Emprestimo.objects.get(id = id_emprestimo).update(id_colaborador=colaborador,
                                   id_equipamento=equipamento,
                                   situacao_emprestimo=situacao_emprestimo)
