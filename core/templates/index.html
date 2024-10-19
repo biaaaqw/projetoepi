@@ -9,9 +9,7 @@
 
             <div class="quick-actions">
                 <h4>Ações rápidas</h4>
-                <a href="/login/">
-                    <button class="quick-action-button">Login</button>
-                </a>
+                {% if user.is_authenticated %}
                 <a href="/colaborador/">
                     <button class="quick-action-button">Colaboradores</button>
                 </a>
@@ -21,6 +19,25 @@
                 <a href="/emprestimo/">
                     <button class="quick-action-button">Empréstimos</button>
                 </a>
+                    {% if user.is_superuser %}
+                        <a href="/usuario/">
+                            <button class="quick-action-button">Usuários</button>
+                        </a>
+                        <a href="/admin/">
+                            <button class="quick-action-button">Administração</button>
+                        </a>
+                    {% endif %}
+                <a href="/usuario/perfil/">
+                    <button class="quick-action-button">Perfil</button>
+                </a>
+                <a href="/logout/">
+                    <button class="quick-action-button">Logout</button>
+                </a>
+                {% else %}
+                <a href="/login/">
+                    <button class="quick-action-button">Login</button>
+                </a>
+                {% endif %}
             </div>
         </div>
     </div>

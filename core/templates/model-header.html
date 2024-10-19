@@ -2,16 +2,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EPI Manager</title>
 {% if show_logout %}
-<div class="login-quick">
+<div class="login-quick" style="position: relative;">
     {% if user.is_authenticated %}
-        <p>
-            Bem-vindo, {{ user.username }}!
-        </p>
-        
-        <a href="/logout/" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i>
-            Sair
+    <div style="display: flex; justify-content: flex-end; align-items: center; padding-right: 20px;">
+        <!-- Nome do usuário -->
+        <h3 style="margin-right: 10px;">
+            {% if user.first_name %}
+                {{ user.first_name }}
+            {% else %}
+                {{ user.username }}
+            {% endif %}
+        </h3>
+    
+        <!-- Ícone do perfil -->
+        <a href="#" id="profile-icon" class="logout-btn">
+            {% if user.userprofile.profile_picture %}
+                <img src="{{ user.userprofile.profile_picture.url }}" alt="Foto de perfil" class="profile-picture">
+            {% else %}
+                <i class="fas fa-user-circle fa-3x"></i>
+            {% endif %}
         </a>
+    </div>  
+    
+    <!-- Modal de perfil e logout -->
+    <div id="profile-modal" class="modal-content" style="display: none; position: absolute; margin-left: -150px;">
+        <a href="/usuario/perfil/" class="profile-link">Perfil</a>
+        <a href="/logout/" class="logout-link">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+    </div>
     {% else %}
         <a href="/login/" class="login-btn">
             <i class="fas fa-sign-in-alt"></i> Entrar
@@ -19,6 +38,25 @@
     {% endif %}
 </div>
 {% endif %}
+{% endif %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 <h1></h1>
+
+<script>
+    // Script para abrir/fechar o modal ao clicar no ícone de perfil
+    const profileIcon = document.getElementById('profile-icon');
+    const profileModal = document.getElementById('profile-modal');
+
+    profileIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        profileModal.style.display = profileModal.style.display === 'none' ? 'inline-block' : 'none';
+    });
+
+    // Fechar o modal ao clicar fora dele
+    window.addEventListener('click', function(event) {
+        if (!event.target.matches('.profile-icon') && !event.target.matches('.profile-modal')) {
+            //profileModal.style.display = 'none';
+        }
+    });
+</script>

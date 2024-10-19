@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from core import views
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,13 +26,18 @@ urlpatterns = [
     path('login/', views.login_usuario),
     path('login/submit',views.submit_login),
     path('logout/',views.logout_usuario),
+    path('login/', views.login_usuario),
+    path('login/submit',views.submit_login),
+    path('logout/',views.logout_usuario),
     path('colaborador/', views.colaborador),
     path('colaborador/cadastrar/', views.cadastrar_colaborador),
     path('colaborador/cadastrar/submit', views.submit_colaborador),
     path('colaborador/excluir/<int:id_colaborador>/', views.delete_colaborador),
+    path('colaborador/excluir/<int:id_colaborador>/', views.delete_colaborador),
     path('equipamento/', views.equipamento),
     path('equipamento/cadastrar/', views.cadastrar_equipamento),
     path('equipamento/cadastrar/submit', views.submit_equipamento),
+    path('equipamento/excluir/<int:id_equipamento>/', views.delete_equipamento),
     path('equipamento/excluir/<int:id_equipamento>/', views.delete_equipamento),
     path('emprestimo/', views.emprestimo),
     path('emprestimo/cadastrar/', views.cadastrar_emprestimo),
@@ -40,4 +47,6 @@ urlpatterns = [
     path('usuario/cadastrar/', views.cadastrar_usuario),
     path('usuario/cadastrar/submit', views.submit_usuario),
     path('usuario/excluir/<int:id_usuario>/', views.delete_usuario),
-]
+    path('usuario/perfil/', views.perfil),
+    path('usuario/perfil/submit', views.submit_perfil),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
