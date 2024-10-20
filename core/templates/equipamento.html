@@ -7,13 +7,24 @@
             <button type="button" class="add-button">Adicionar equipamento</button>
         </a>
 
-        <ul class="listagem">
-            {% for equipamento in equipamentos %}
-            <li class="list-item">
-                {{equipamento.nome}}
-                (<a href = "/equipamento/cadastrar/?id={{equipamento.id}}" >editar</a> / <a href="/equipamento/excluir/{{ equipamento.id }}">excluir</a>)
-            </li>    
-            {% endfor %}
-        </ul>   
+        <table class="table-listagem">
+            <thead>
+                <tr>
+                    <th>Nome do Equipamento</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipamento in equipamentos %}
+                <tr>
+                    <td>{{ equipamento.nome }}</td>
+                    <td class="table-buttons">
+                        <a href="/equipamento/cadastrar/?id={{ equipamento.id }}" class="edit-btn">Editar</a>
+                        <a href="/equipamento/excluir/{{ equipamento.id }}" class="delete-btn" id="excluir-{{equipamento.id}}">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 </div>
 {% endblock %}

@@ -1,0 +1,23 @@
+<!-- Modal de perfil e logout -->
+<div id="delete-modal" class="modal-content" style="display: none; position: absolute; margin-left: auto;">
+    <a href="{{url_sim}}" class="edit-btn">Sim</a>
+    <a href="{{url_nao}}" class="delete-btn">Não</a>
+</div>
+    
+<script>
+    // Script para abrir/fechar o modal ao clicar no ícone de perfil
+    const profileIcon = document.getElementById('excluir-{{id}}');
+    const profileModal = document.getElementById('delete-modal');
+
+    profileIcon.addEventListener('click', function(e) {
+        e.preventDefault();
+        profileModal.style.display = profileModal.style.display === 'none' ? 'inline-block' : 'none';
+    });
+
+    // Fechar o modal ao clicar fora dele
+    window.addEventListener('click', function(event) {
+        if (!event.target.matches('.excluir-{{id}}') && !event.target.matches('.delete-modal')) {
+            //profileModal.style.display = 'none';
+        }
+    });
+</script>

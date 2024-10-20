@@ -7,13 +7,24 @@
             <button type="button" class="add-button">Adicionar Colaborador</button>
         </a>
 
-        <ul class="listagem">
-            {% for colaborador in colaboradores %}
-            <li class="list-item">
-                {{ colaborador.nome }}
-                (<a href="/colaborador/cadastrar/?id={{ colaborador.id }}">editar</a> / <a href="/colaborador/excluir/{{ colaborador.id }}">excluir</a>)
-            </li>
-            {% endfor %}
-        </ul>
+        <table class="table-listagem">
+            <thead>
+                <tr>
+                    <th>Nome do Colaborador</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for colaborador in colaboradores %}
+                <tr>
+                    <td>{{ colaborador.nome }}</td>
+                    <td class="table-buttons">
+                        <a href="/colaborador/cadastrar/?id={{ colaborador.id }}" class="edit-btn">Editar</a>
+                        <a href="" class="delete-btn" id="excluir-{{colaborador.id}}">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}    
+            </tbody>
+        </table>
     </div>
 {% endblock %}

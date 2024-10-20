@@ -7,13 +7,23 @@
             <button type="button" class="add-button">Adicionar Usuário</button>
         </a>
 
-        <ul class="listagem">
-            {% for usuario in usuarios %}
-            <li class="list-item">
-                {{ usuario.username }}
-                (<a href="/usuario/cadastrar/?id={{ usuario.id }}">editar</a> / <a href="/usuario/excluir/{{ usuario.id }}">excluir</a>)
-            </li>
-            {% endfor %}
-        </ul>
-    </div>
+        <table class="table-listagem">
+            <thead>
+                <tr>
+                    <th>Nome do Usuário</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td>{{ usuario.username }}</td>
+                    <td class="table-buttons">
+                        <a href="/usuario/cadastrar/?id={{ usuario.id }}" class="edit-btn">Editar</a>
+                        <a href="/usuario/excluir/{{ usuario.id }}" class="delete-btn">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 {% endblock %}

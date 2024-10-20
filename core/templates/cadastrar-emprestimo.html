@@ -8,12 +8,21 @@
         {% else %}
             <h2>Cadastrar Empréstimo</h2>
         {% endif %}
+        
+        {% if messages %}
+        <div class="message-wrapper">
+            {% for message in messages %}
+            <div class="alert {{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
         <form action="submit" method="POST" class="form-cadastro">
             {% csrf_token %}
             <input type="number" name="id_emprestimo" value="{{ emprestimo.id }}" hidden>
 
             <label for="id_colaborador">Nome Colaborador</label>
-            <select id="id_colaborador" name="id_colaborador" required>
+            <select id="id_colaborador" name="id_colaborador" required {% if emprestimo.id %} disabled {% endif %}>
                 <option value="{{ emprestimo.id_colaborador.id }}">{{ emprestimo.id_colaborador }}</option>
                 {% for colaborador in colaboradores %}
                     <option value="{{ colaborador.id }}">{{ colaborador.nome }}</option>
@@ -21,7 +30,7 @@
             </select>
 
             <label for="id_equipamento">Nome Equipamento</label>
-            <select id="id_equipamento" name="id_equipamento" required>
+            <select id="id_equipamento" name="id_equipamento" required  {% if emprestimo.id %} disabled {% endif %}>
                 <option value="{{ emprestimo.id_equipamento.id }}">{{ emprestimo.id_equipamento }}</option>
                 {% for equipamento in equipamentos %}
                     <option value="{{ equipamento.id }}">{{ equipamento.nome }}</option>
@@ -38,10 +47,10 @@
             </select>
 
             <label for="data_emprestimo">Data do Empréstimo</label>
-            <input type="date" id="data_emprestimo" name="data_emprestimo" value="{{ emprestimo.get_data_emprestimo }}" required>
+            <input type="date" id="data_emprestimo" name="data_emprestimo" value="{{ emprestimo.get_data_emprestimo }}" required  {% if emprestimo.id %} disabled {% endif %}>
 
             <label for="data_prevista">Data Prevista de Devolução</label>
-            <input type="date" id="data_prevista" name="data_prevista" value="{{ emprestimo.get_data_prevista }}" required>
+            <input type="date" id="data_prevista" name="data_prevista" value="{{ emprestimo.get_data_prevista }}" required  {% if emprestimo.id %} disabled {% endif %}>
 
             <label for="condicao_emprestimo">Condições do Equipamento no Empréstimo</label>
             <input type="text" id="condicao_emprestimo" name="condicao_emprestimo" value="{{ emprestimo.condicao_emprestimo }}" required>

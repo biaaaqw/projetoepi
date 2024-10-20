@@ -7,7 +7,7 @@ class ColaboradorAdmin(admin.ModelAdmin):
 admin.site.register(Colaborador,ColaboradorAdmin)
 
 class EquipamentoAdmin(admin.ModelAdmin):
-    list_display = ('id','nome','data_validade','situacao')
+    list_display = ('id','nome','data_validade')
 
 admin.site.register(Equipamento,EquipamentoAdmin)
 

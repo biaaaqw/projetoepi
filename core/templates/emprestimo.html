@@ -24,20 +24,40 @@
         </select>
 
         <div class="form-actions">
-            <a href="/emprestimo/">
-                <button type="submit" class="save-button" action>Pesquisar</button>
-            </a>
+            <button type="submit" class="save-button">Pesquisar</button>
         </div>
-
-    <ul class="listagem">
-        {% for emprestimo in emprestimos %}
-        <li class="list-item">
-            {{emprestimo.id}} - {{emprestimo.id_colaborador}} - {{emprestimo.id_equipamento}} - {{emprestimo.data_emprestimo}}
-            (<a href = "/emprestimo/cadastrar/?id={{emprestimo.id}}" >editar</a> / <a href="/emprestimo/excluir/{{ emprestimo.id }}">excluir</a>)
-        </li>    
-
-        {% endfor %}
-    </ul>   
+    </form>
+    
+    {% if show_table %}
+        {% if not emprestimos %}
+            {% include "no-results.html" %}
+        {% else %}
+        <table class="table-listagem">
+            <thead>
+                <tr>
+                    <th>Colaborador</th>
+                    <th>Equipamento</th>
+                    <th>Data de Empréstimo</th>
+                    <th>Situação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for emprestimo in emprestimos %}
+                <tr>
+                    <td>{{ emprestimo.id_colaborador }}</td>
+                    <td>{{ emprestimo.id_equipamento }}</td>
+                    <td>{{ emprestimo.data_emprestimo }}</td>
+                    <td>{{ emprestimo.get_situacao_emprestimo_display}}</td>
+                    <td class="table-buttons">
+                        <a href="/emprestimo/cadastrar/?id={{ emprestimo.id }}" class="edit-btn" id="excluir-{{emprestimo.id}}"">Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    {% endif %}
 </div>
 
 

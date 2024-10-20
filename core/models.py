@@ -19,7 +19,6 @@ class Colaborador(models.Model):
 class Equipamento(models.Model):
     nome = models.CharField (max_length=100)
     data_validade = models.DateField(blank=True)
-    situacao = models.CharField (max_length=100)
 
     def __str__(self) -> str:
         return self.nome

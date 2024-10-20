@@ -24,30 +24,6 @@ def cadastrar_equipamento(request):
     # Verifica se está editando um equipamento existente
     if id_equipamento:
         dados['equipamento'] = Equipamento.objects.get(id=id_equipamento)
-    
-    # Se o método for POST, salva o equipamento
-    if request.method == 'POST':
-        nome = request.POST.get('nome')
-        data_validade = request.POST.get('data_validade')
-        situacao = request.POST.get('situacao')
-        
-        if id_equipamento:
-            equipamento = Equipamento.objects.get(id=id_equipamento)
-        else:
-            equipamento = Equipamento()
-
-        equipamento.nome = nome
-        equipamento.data_validade = data_validade
-        equipamento.situacao = situacao
-        
-        try:
-            equipamento.save()
-            messages.success(request, 'Equipamento cadastrado com sucesso!')
-        except:
-            messages.error(request, 'Ocorreu um erro ao cadastrar o equipamento.')
-
-        return redirect('/equipamento/')
-    
     dados['show_logout'] = True
     return render(request, "cadastrar-equipamento.html", dados)
 
@@ -59,22 +35,34 @@ def delete_equipamento(request,id_equipamento):
 
 @login_required(login_url='/login/')
 def submit_equipamento(request):
-    if request.POST:
+    if request.method == 'POST':
         nome = request.POST.get('nome')
         data_validade = request.POST.get('data_validade')
-        situacao = request.POST.get('situacao')
         id_equipamento = request.POST.get('id_equipamento') 
+
         if id_equipamento:
             equipamento = Equipamento.objects.get(id = id_equipamento)
             equipamento.nome=nome
             equipamento.data_validade=data_validade
-            equipamento.situacao=situacao
-            equipamento.save()
+            try:
+                equipamento.save()
+                messages.success(request, 'Equipamento alterado com sucesso!')
+                return redirect('/equipamento/cadastrar/?id='+id_equipamento)
+            except:
+                messages.error(request, 'Ocorreu um erro ao cadastrar o equipamento.')
         else:
-            Equipamento.objects.create(nome=nome,
-                              data_validade=data_validade,
-                              situacao=situacao)
-    return redirect('/equipamento/')
+            try:
+                Equipamento.objects.create(nome=nome,
+                                data_validade=data_validade)
+                messages.success(request, 'Equipamento cadastrado com sucesso!')
+            except:
+                messages.error(request, 'Ocorreu um erro ao cadastrar o equipamento.')
+
+        return redirect('/equipamento/cadastrar/')
+    
+    else:
+        messages.error(request, 'Ocorreu um erro ao cadastrar o equipamento.')
+    return redirect('/equipamento/cadastrar/')
 
 @login_required(login_url='/login/')
 def colaborador (request):
@@ -103,16 +91,25 @@ def submit_colaborador(request):
         data_nascimento = request.POST.get('data_nascimento')
         id_colaborador = request.POST.get('id_colaborador') 
         nome = request.POST.get('nome') 
-        nome = request.POST.get('nome') 
+        
         if id_colaborador:
             colaborador = Colaborador.objects.get(id = id_colaborador)
             colaborador.nome=nome
             colaborador.data_nascimento=data_nascimento
-            colaborador.save()
+            try:
+                colaborador.save()
+                messages.success(request, 'Colaborador alterado com sucesso!')
+                return redirect('/colaborador/cadastrar/?id='+id_colaborador)
+            except:
+                messages.error(request, 'Ocorreu um erro ao alterar o colaborador.')
         else:
-            Colaborador.objects.create(nome=nome,
-                              data_nascimento=data_nascimento)
-    return redirect('/colaborador/')
+            try:
+                Colaborador.objects.create(nome=nome,
+                                data_nascimento=data_nascimento)
+                messages.success(request, 'Colaborador cadastrado com sucesso!')
+            except:
+                messages.error(request, 'Ocorreu um erro ao cadastrar o colaborador.')
+    return redirect('/colaborador/cadastrar/')
 
 @login_required(login_url='/login/')
 def emprestimo (request):
@@ -130,18 +127,27 @@ def emprestimo (request):
     equipamento=request.GET.get('equipamento')
     situacao_emprestimo=request.GET.get('situacao_emprestimo')
 
-    emprestimos = Emprestimo.objects.all()
+    if (colaborador is None and equipamento is None and situacao_emprestimo is None):
+        emprestimos={}
+        show_table=False
+    else:
+        emprestimos = Emprestimo.objects.all()
 
-    if colaborador:
-        emprestimos = emprestimos.filter(id_colaborador__nome__icontains=colaborador)
-    if equipamento:
-        emprestimos = emprestimos.filter(id_equipamento__nome__icontains=equipamento)
-    if situacao_emprestimo:
-        emprestimos = emprestimos.filter(situacao_emprestimo=situacao_emprestimo)
+        if colaborador:
+            emprestimos = emprestimos.filter(id_colaborador__nome__icontains=colaborador)
+        if equipamento:
+            emprestimos = emprestimos.filter(id_equipamento__nome__icontains=equipamento)
+        if situacao_emprestimo:
+            emprestimos = emprestimos.filter(situacao_emprestimo=situacao_emprestimo)
+        
+        show_table=True
+
 
     dados = {'emprestimos': emprestimos,
             'show_logout': True,
-            'situacao_choices': SITUACAO_CHOICES}
+            'situacao_choices': SITUACAO_CHOICES,
+            'show_table':show_table
+            }
     return render(request, 'emprestimo.html', dados)
 
 @login_required(login_url='/login/')
