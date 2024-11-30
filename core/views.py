@@ -39,7 +39,6 @@ def submit_equipamento(request):
         nome = request.POST.get('nome')
         data_validade = request.POST.get('data_validade')
         id_equipamento = request.POST.get('id_equipamento') 
-
         if id_equipamento:
             equipamento = Equipamento.objects.get(id = id_equipamento)
             equipamento.nome=nome
